@@ -1,0 +1,56 @@
+<h2>Borrowings</h2>
+
+<div id="list"></div>
+
+<h3>Borrow</h3>
+<form id="borrowForm">
+  <input id="bookCode" placeholder="Book Code">
+  <input id="memberId" placeholder="Member ID">
+  <button>Borrow</button>
+</form>
+
+<h3>Return</h3>
+<form id="returnForm">
+  <input id="returnCode" placeholder="Book Code">
+  <button>Return</button>
+</form>
+
+<script>
+  function load() {
+      fetch("/borrow")
+          .then(res => res.json())
+          .then(data => {
+              list.innerHTML = "";
+              data.forEach(b => {
+                  list.innerHTML += `<p>${b.bookCode} - ${b.memberId} | ${b.borrowDate} | ${b.returnDate}</p>`;
+              });
+          });
+  }
+
+  borrowForm.onsubmit = e => {
+      e.preventDefault();
+
+      fetch("/borrow", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({
+              bookCode: bookCode.value,
+              memberId: parseInt(memberId.value)
+          })
+      }).then(load);
+  };
+
+  returnForm.onsubmit = e => {
+      e.preventDefault();
+
+      fetch("/borrow/return", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({
+              bookCode: returnCode.value
+          })
+      }).then(load);
+  };
+
+  load();
+</script>

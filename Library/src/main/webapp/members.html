@@ -1,0 +1,38 @@
+<h2>Members</h2>
+
+<div id="members"></div>
+
+<h3>Add Member</h3>
+<form id="memberForm">
+  <input id="name" placeholder="Name">
+  <input id="email" placeholder="Email">
+  <button>Add</button>
+</form>
+
+<script>
+  function loadMembers() {
+      fetch("/members")
+          .then(res => res.json())
+          .then(data => {
+              members.innerHTML = "";
+              data.forEach(m => {
+                  members.innerHTML += `<p>${m.id} - ${m.name} (${m.email})</p>`;
+              });
+          });
+  }
+
+  memberForm.onsubmit = e => {
+      e.preventDefault();
+
+      fetch("/members", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({
+              name: name.value,
+              email: email.value
+          })
+      }).then(loadMembers);
+  };
+
+  loadMembers();
+</script>

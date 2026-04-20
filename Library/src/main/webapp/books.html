@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Books</title>
+</head>
+<body>
+
+<h2>Books</h2>
+
+<div id="books"></div>
+
+<h3>Add Book</h3>
+<form id="bookForm">
+  <input id="code" placeholder="Code" required>
+  <input id="title" placeholder="Title" required>
+  <input id="author" placeholder="Author" required>
+  <button type="submit">Add</button>
+</form>
+
+<script>
+  function loadBooks() {
+      fetch("/books")
+          .then(res => res.json())
+          .then(data => {
+              const div = document.getElementById("books");
+              div.innerHTML = "";
+              data.forEach(b => {
+                  div.innerHTML += `<p>[${b.code}] ${b.title} - ${b.author}</p>`;
+              });
+          });
+  }
+
+  document.getElementById("bookForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      fetch("/books", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({
+              code: code.value,
+              title: title.value,
+              author: author.value
+          })
+      }).then(() => {
+          loadBooks();
+      });
+  });
+
+  loadBooks();
+</script>
+
+</body>
+</html>
