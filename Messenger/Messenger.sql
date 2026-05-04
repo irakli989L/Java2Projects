@@ -1,0 +1,11 @@
+CREATE TABLE users(
+	id SERIAL PRIMARY KEY,
+	username VARCHAR(50) UNIQUE NOT NULL,
+	password VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE messages (
+    id SERIAL PRIMARY KEY,
+    receiver VARCHAR(50) NOT NULL,
+    message TEXT NOT NULL
+);
