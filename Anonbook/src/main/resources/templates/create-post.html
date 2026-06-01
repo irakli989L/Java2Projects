@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Post</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            font-family:Arial,sans-serif;
+            background:#f4f6fb;
+        }
+
+        .header{
+            background:#3949ab;
+            color:white;
+            text-align:center;
+            padding:20px;
+            font-size:32px;
+            font-weight:bold;
+            letter-spacing:3px;
+        }
+
+        .container{
+            width:700px;
+            margin:40px auto;
+        }
+
+        .card{
+            background:white;
+            padding:30px;
+            border-radius:15px;
+            box-shadow:0 4px 12px rgba(0,0,0,.08);
+        }
+
+        h2{
+            color:#3949ab;
+            margin-bottom:20px;
+        }
+
+        textarea{
+            width:100%;
+            min-height:180px;
+            resize:vertical;
+            padding:15px;
+            font-size:16px;
+            border:1px solid #ddd;
+            border-radius:10px;
+            margin-bottom:20px;
+        }
+
+        input[type=file]{
+            margin-bottom:20px;
+        }
+
+        .buttons{
+            display:flex;
+            gap:10px;
+        }
+
+        button{
+            flex:1;
+            border:none;
+            padding:14px;
+            border-radius:10px;
+            font-size:16px;
+            cursor:pointer;
+        }
+
+        .submit{
+            background:#3949ab;
+            color:white;
+        }
+
+        .back{
+            background:#eceff1;
+            color:black;
+            text-decoration:none;
+            text-align:center;
+            line-height:48px;
+            border-radius:10px;
+            flex:1;
+        }
+
+        button:hover,
+        .back:hover{
+            opacity:.9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    ANONBOOK
+</div>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>Create Anonymous Post</h2>
+
+        <form action="/post"
+              method="post"
+              enctype="multipart/form-data">
+
+            <textarea
+                    name="content"
+                    placeholder="What's on your mind?"
+                    required></textarea>
+
+            <input
+                    type="file"
+                    name="image"
+                    accept=".jpg,.jpeg">
+
+            <div class="buttons">
+
+                <button class="submit" type="submit">
+                    Publish Post
+                </button>
+
+                <a href="/" class="back">
+                    Back
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>
