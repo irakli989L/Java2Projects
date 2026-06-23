@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Log In - OnlyMarketFans</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #faf9fc; color: #332a36; padding: 40px; margin: 0; }
+    .form-container { max-width: 420px; margin: 80px auto; padding: 35px; border-radius: 20px; background: #fff; box-shadow: 0 10px 30px rgba(108, 43, 197, 0.08); }
+    h2 { font-weight: 600; color: #6c2bc5; margin-top: 0; margin-bottom: 25px; text-align: center; }
+    label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; color: #514457; }
+    input[type="text"], input[type="password"] { width: 100%; padding: 14px; margin-bottom: 20px; box-sizing: border-box; border: 1px solid #e1d5f5; border-radius: 10px; background: #fdfbfe; font-family: inherit; transition: border-color 0.2s; }
+    input:focus { outline: none; border-color: #6c2bc5; background: #fff; }
+    button { width: 100%; padding: 14px; background: #ffd23f; color: #2b1c40; border: none; cursor: pointer; font-size: 16px; border-radius: 25px; font-weight: 700; box-shadow: 0 4px 12px rgba(255, 210, 63, 0.3); transition: background 0.2s; margin-top: 10px; }
+    button:hover { background: #e6b815; }
+    .footer-link { text-align: center; margin-top: 20px; font-size: 14px; color: #827387; }
+    .footer-link a { color: #6c2bc5; text-decoration: none; font-weight: 600; }
+    .footer-link a:hover { color: #e6b815; }
+    .error-message { color: #d00000; background: #fff0f0; border: 1px solid #ffcccc; padding: 12px; border-radius: 10px; font-size: 14px; margin-bottom: 20px; display: none; text-align: center; font-weight: 600; }
+  </style>
+</head>
+<body>
+<div class="form-container">
+  <h2>Welcome Back!</h2>
+  <div id="errorBox" class="error-message"></div>
+
+  <form id="loginForm">
+    <label>Username/Email</label>
+    <input type="text" id="loginInput" placeholder="Enter username or email" required>
+
+    <label>Password</label>
+    <input type="password" id="password" placeholder="Enter password" required>
+
+    <button type="submit">Login</button>
+  </form>
+
+  <div class="footer-link">
+    Don't have an account? <a href="register.html">Sign up</a>
+  </div>
+</div>
+
+<script>
+  document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const errorBox = document.getElementById('errorBox');
+      errorBox.style.display = 'none';
+
+      const credential = document.getElementById('loginInput').value;
+      const password = document.getElementById('password').value;
+
+      try {
+            const response = await fetch(`/login?credential=${encodeURIComponent(credential)}&password=${encodeURIComponent(password)}`, {
+                method: 'POST'
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Welcome, ' + data.username + '!');
+                window.location.href = 'index.html';
+            } else {
+                errorBox.innerText = data.error || 'Invalid credentials.';
+                errorBox.style.display = 'block';
+            }
+        } catch (err) {
+            errorBox.innerText = 'Connection error. Please try again.';
+            errorBox.style.display = 'block';
+        }
+  });
+</script>
+</body>
+</html>

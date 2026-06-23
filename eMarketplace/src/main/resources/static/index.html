@@ -3,194 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <title>OnlyMarketFans</title>
-
     <style>
-        :root{
-          --primary:#7c3aed;
-          --secondary:#facc15;
-          --bg:#f6f3ff;
-          --card:#ffffff;
-          --text:#1f1b24;
-        }
-
-        body{
-          margin:0;
-          font-family: system-ui, Arial;
-          background:var(--bg);
-          color:var(--text);
-        }
-
-        header{
-          display:flex;
-          justify-content:space-between;
-          align-items:center;
-          padding:25px 40px;
-        }
-
-        h1{
-          margin:0;
-          color:var(--primary);
-          font-size:28px;
-          letter-spacing:-0.5px;
-        }
-
-        .add-btn{
-          background:var(--primary);
-          color:white;
-          padding:10px 18px;
-          border-radius:999px;
-          text-decoration:none;
-          font-weight:600;
-          transition:0.2s;
-        }
-
-        .add-btn:hover{
-          transform:scale(1.05);
-          background:#6d28d9;
-        }
-
-        .grid{
-          display:grid;
-          grid-template-columns:repeat(3,1fr);
-          gap:22px;
-          padding:20px 40px;
-        }
-
-        .card{
-          background:var(--card);
-          border-radius:18px;
-          overflow:hidden;
-          box-shadow:0 10px 30px rgba(0,0,0,0.08);
-          transition:0.25s;
-        }
-
-        .card:hover{
-          transform:translateY(-6px);
-          box-shadow:0 18px 40px rgba(124,58,237,0.18);
-        }
-
-        .card img{
-          width:100%;
-          height:220px;
-          object-fit:cover;
-        }
-
-        .card-body{
-          padding:15px;
-        }
-
-        .card h3{
-          margin:0;
-          font-size:18px;
-        }
-
-        .card a{
-          text-decoration:none;
-          color:var(--text);
-        }
-
-        .card a:hover{
-          color:var(--primary);
-        }
-
-        .price{
-          margin-top:8px;
-          font-weight:700;
-          color:var(--primary);
-          font-size:18px;
-        }
-
-        .pagination{
-          display:flex;
-          justify-content:center;
-          align-items:center;
-          gap:12px;
-          padding:25px;
-        }
-
-        button{
-          border:2px solid var(--primary);
-          background:white;
-          color:var(--primary);
-          padding:8px 14px;
-          border-radius:999px;
-          cursor:pointer;
-          font-weight:600;
-          transition:0.2s;
-        }
-
-        button:hover:not(:disabled){
-          background:var(--primary);
-          color:white;
-        }
-
-        button:disabled{
-          opacity:0.4;
-          cursor:not-allowed;
-        }
-
-        /* mobile */
-        @media(max-width:900px){
-          .grid{grid-template-columns:repeat(2,1fr);}
-        }
-
-        @media(max-width:600px){
-          .grid{grid-template-columns:1fr;}
-          header{padding:20px;}
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 40px; background: #faf9fc; color: #332a36; }
+        h1 { font-weight: 600; color: #6c2bc5; letter-spacing: -0.5px; margin: 0; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .right-header { display: flex; align-items: center; gap: 20px; }
+        .auth-zone { display: flex; gap: 15px; align-items: center; }
+        .auth-zone a { color: #6c2bc5; text-decoration: none; font-weight: 600; font-size: 15px; transition: color 0.2s; }
+        .auth-zone a:hover { color: #ffd23f; }
+        .user-welcome { color: #332a36; font-weight: 600; font-size: 15px; background: white; padding: 8px 16px; border-radius: 20px; box-shadow: 0 4px 10px rgba(108, 43, 197, 0.08); }
+        .logout-btn { color: #827387 !important; font-size: 13px !important; margin-left: 5px; text-decoration: none; }
+        .controls-container { display: flex; justify-content: flex-end; align-items: center; gap: 10px; margin-bottom: 25px; }
+        .sort-select { padding: 8px 12px; border-radius: 20px; border: 1px solid #e1d5f5; background: white; color: #514457; font-weight: 600; outline: none; cursor: pointer; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+        .card { border: none; padding: 0; border-radius: 16px; background: white; text-align: center; box-shadow: 0 10px 25px rgba(108, 43, 197, 0.08); overflow: hidden; transition: transform 0.2s; }
+        .card:hover { transform: translateY(-5px); }
+        .card img { width: 100%; height: 220px; object-fit: cover; }
+        .card-content { padding: 20px; }
+        .card h3 { margin: 10px 0; font-size: 18px; }
+        .card h3 a { text-decoration: none; color: #332a36; transition: color 0.2s; }
+        .card h3 a:hover { color: #6c2bc5; }
+        .price { color: #6c2bc5; font-weight: 700; font-size: 20px; margin: 8px 0; }
+        .time { color: #827387; font-size: 12px; margin-bottom: 5px; }
+        .user-badge { color: #6c2bc5; font-size: 12px; font-weight: 600; background: #fdfbfe; padding: 2px 8px; border-radius: 8px; display: inline-block; }
+        .pagination { margin-top: 40px; text-align: center; display: flex; justify-content: center; align-items: center; gap: 15px; }
+        button { padding: 10px 20px; cursor: pointer; border-radius: 20px; border: 1px solid #e1d5f5; background: white; color: #6c2bc5; font-weight: bold; transition: all 0.2s; }
+        button:hover:not(:disabled) { background: #6c2bc5; color: white; border-color: #6c2bc5; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .add-btn { background: #ffd23f; color: #2b1c40; border: none; padding: 12px 25px; font-size: 15px; text-decoration: none; border-radius: 25px; font-weight: 700; box-shadow: 0 4px 12px rgba(255, 210, 63, 0.3); transition: background 0.2s; }
+        .add-btn:hover { background: #e6b815; }
     </style>
 </head>
-
 <body>
 
-<header>
+<div class="header-container">
     <h1>OnlyMarketFans</h1>
-    <a class="add-btn" href="new-item.html">NEW</a>
-</header>
+    <div class="right-header">
+        <div class="auth-zone" id="authZone">
+            <a href="login.html">Log In</a>
+            <a href="register.html">Sign Up</a>
+        </div>
+        <a href="new-item.html" class="add-btn" id="newBtn">NEW</a>
+    </div>
+</div>
 
-<div id="grid" class="grid"></div>
+<div class="controls-container">
+    <label style="font-weight: 600; color: #514457; font-size: 14px;">Sort by:</label>
+    <select id="sortSelect" class="sort-select" onchange="handleSortChange()">
+        <option value="dateDesc">Date Descending (Default)</option>
+        <option value="dateAsc">Date Ascending</option>
+        <option value="priceAsc">Price Ascending</option>
+        <option value="priceDesc">Price Descending</option>
+    </select>
+</div>
+
+<div id="items-grid" class="grid"></div>
 
 <div class="pagination">
-    <button id="prev">Prev</button>
-    <span id="pageLabel">1</span>
-    <button id="next">Next</button>
+    <button id="prevBtn" onclick="changePage(-1)">Prev</button>
+    <span id="pageLabel">Page 1</span>
+    <button id="nextBtn" onclick="changePage(1)">Next</button>
 </div>
 
 <script>
-    let page = 0;
+    let currentPage = 0;
+    let currentSort = 'dateDesc';
 
-    function load(){
-      fetch(`/items?page=${page}`)
-        .then(r=>r.json())
-        .then(data=>{
-          const grid=document.getElementById("grid");
-          grid.innerHTML="";
-
-          data.content.forEach(i=>{
-            grid.innerHTML += `
-              <div class="card">
-                <img src="${i.photoUrl || 'https://via.placeholder.com/400'}">
-                <div class="card-body">
-                  <a href="item.html?id=${i.id}">
-                    <h3>${i.name}</h3>
-                  </a>
-                  <div class="price">$${Number(i.price).toFixed(2)}</div>
-                </div>
-              </div>
-            `;
-          });
-
-          document.getElementById("pageLabel").innerText = page+1;
-          document.getElementById("prev").disabled = page===0;
-          document.getElementById("next").disabled = data.last;
-        });
+    async function checkAuth() {
+        const authZone = document.getElementById('authZone');
+        // Removed the newBtn variable selection since it stays visible naturally now
+        try {
+            const res = await fetch('/api/auth/me');
+            if (res.ok) {
+                const data = await res.json();
+                authZone.innerHTML = `
+                    <span class="user-welcome"> ${data.username}
+                        <a href="#" onclick="logout()" class="logout-btn">(Log Out)</a>
+                    </span>`;
+            }
+        } catch (err) {
+            console.log("Not authenticated - viewing as Guest");
+        }
     }
 
-    document.getElementById("prev").onclick=()=>{page--;load();}
-    document.getElementById("next").onclick=()=>{page++;load();}
+    async function logout() {
+        await fetch('/api/auth/logout', { method: 'POST' });
+        window.location.reload();
+    }
 
-    load();
+    function loadItems(page, sortBy) {
+        fetch(`/api/items?page=${page}&sortBy=${sortBy}`)
+            .then(res => res.json())
+            .then(data => {
+                const grid = document.getElementById('items-grid');
+                grid.innerHTML = '';
+
+                data.content.forEach(item => {
+                    grid.innerHTML += `
+                        <div class="card">
+                            <img src="${item.photoUrl || 'https://via.placeholder.com/220'}" alt="item image">
+                            <div class="card-content">
+                                <h3><a href="item.html?id=${item.id}">${item.name}</a></h3>
+                                <p class="price">$${item.price.toFixed(2)}</p>
+                                <p class="time">${new Date(item.submissionTime).toLocaleString('en-US')}</p>
+                                <div class="user-badge">By: ${item.username || 'Unknown'}</div>
+                            </div>
+                        </div>`;
+                });
+
+                document.getElementById('pageLabel').innerText = `Page ${page + 1}`;
+                document.getElementById('prevBtn').disabled = page === 0;
+                document.getElementById('nextBtn').disabled = data.last;
+            });
+    }
+
+    function changePage(direction) {
+        currentPage += direction;
+        loadItems(currentPage, currentSort);
+    }
+
+    function handleSortChange() {
+        currentSort = document.getElementById('sortSelect').value;
+        currentPage = 0;
+        loadItems(currentPage, currentSort);
+    }
+
+    window.onload = () => {
+        checkAuth();
+        loadItems(currentPage, currentSort);
+    };
 </script>
-
 </body>
 </html>

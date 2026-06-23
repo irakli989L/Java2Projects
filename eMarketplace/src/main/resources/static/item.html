@@ -2,99 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>OnlyMarketFans</title>
-
+    <title>Item Details - OnlyMarketFans</title>
     <style>
-        :root{
-          --primary:#7c3aed;
-          --bg:#f6f3ff;
-        }
-
-        body{
-          margin:0;
-          font-family:system-ui;
-          background:var(--bg);
-        }
-
-        .container{
-          max-width:750px;
-          margin:40px auto;
-          background:white;
-          border-radius:18px;
-          overflow:hidden;
-          box-shadow:0 20px 50px rgba(0,0,0,0.1);
-        }
-
-        .back{
-          display:inline-block;
-          margin:20px;
-          color:var(--primary);
-          text-decoration:none;
-          font-weight:600;
-        }
-
-        img{
-          width:100%;
-          height:420px;
-          object-fit:cover;
-        }
-
-        .content{
-          padding:25px;
-        }
-
-        h1{
-          margin:0;
-          color:var(--primary);
-        }
-
-        .price{
-          font-size:26px;
-          font-weight:700;
-          margin:10px 0;
-          color:var(--primary);
-        }
-
-        .desc{
-          margin-top:15px;
-          line-height:1.6;
-          color:#333;
-        }
-
-        .time{
-          color:#777;
-          font-size:13px;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #faf9fc; color: #332a36; padding: 40px; margin: 0; }
+        .container { max-width: 600px; margin: 40px auto; background: white; border-radius: 18px; overflow: hidden; box-shadow: 0 10px 30px rgba(108, 43, 197, 0.08); padding: 25px; }
+        .back { display: inline-block; margin-bottom: 20px; color: #6c2bc5; text-decoration: none; font-weight: 600; }
+        .back:hover { color: #ffd23f; }
+        img { width: 100%; height: 380px; object-fit: cover; border-radius: 12px; }
+        h1 { margin: 15px 0 5px 0; color: #6c2bc5; }
+        .price { font-size: 26px; font-weight: 700; margin: 10px 0; color: #6c2bc5; }
+        .desc { margin-top: 15px; line-height: 1.6; color: #514457; }
+        .time { color: #827387; font-size: 13px; margin-bottom: 5px; }
+        .author-badge { display: inline-block; background: #fdfbfe; color: #6c2bc5; font-weight: 600; padding: 4px 12px; border-radius: 8px; font-size: 14px; margin-top: 10px; }
     </style>
 </head>
-
 <body>
 
 <div class="container">
-    <a class="back" href="index.html">← Back</a>
-
-    <img id="img">
-    <div class="content">
-        <h1 id="name"></h1>
-        <div class="price" id="price"></div>
-        <div class="time" id="time"></div>
-        <p class="desc" id="desc"></p>
-    </div>
+    <a class="back" href="index.html">← Back to Marketplace</a>
+    <img id="img" alt="Item Image">
+    <h1 id="name"></h1>
+    <div class="price" id="price"></div>
+    <div class="time" id="time"></div>
+    <div class="author-badge" id="author"></div>
+    <p class="desc" id="desc"></p>
 </div>
 
 <script>
-    const id=new URLSearchParams(location.search).get("id");
+    const id = new URLSearchParams(location.search).get("id");
 
-    fetch(`/items/${id}`)
-    .then(r=>r.json())
-    .then(i=>{
-      document.getElementById("name").innerText=i.name;
-      document.getElementById("img").src=i.photoUrl;
-      document.getElementById("price").innerText="$"+Number(i.price).toFixed(2);
-      document.getElementById("desc").innerText=i.description;
-      document.getElementById("time").innerText=new Date(i.submissionTime).toLocaleString();
-    });
+    if (!id) {
+        window.location.href = 'index.html';
+    } else {
+        fetch(`/api/items/${id}`)
+        .then(r => {
+            if(!r.ok) throw new Error();
+            return r.json();
+        })
+        .then(i => {
+            document.getElementById("name").innerText = i.name;
+            document.getElementById("img").src = i.photoUrl || 'https://via.placeholder.com/600x380';
+            document.getElementById("price").innerText = "$" + Number(i.price).toFixed(2);
+            document.getElementById("desc").innerText = i.description;
+            document.getElementById("time").innerText = "Posted: " + new Date(i.submissionTime).toLocaleString();
+            document.getElementById('author').innerText = "Published by: " + (i.username || "Unknown");
+        })
+        .catch(() => {
+            alert('Item not found.');
+            window.location.href = 'index.html';
+        });
+    }
 </script>
-
 </body>
 </html>

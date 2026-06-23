@@ -22,6 +22,10 @@ public class Item {
     private LocalDateTime submissionTime;
     private String photoUrl;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @PrePersist
     protected void onCreate() {
         this.submissionTime = LocalDateTime.now();
